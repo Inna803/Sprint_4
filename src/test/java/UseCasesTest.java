@@ -16,22 +16,22 @@ public class UseCasesTest extends BaseTest {
     MainPage mainPage = null;
 
     @Before
-    public void BeforeUseCases() {
+    public void beforeUseCases() {
         mainPage = new MainPage(driver);
         mainPage.navigateTo();
     }
 
     @Test
     @Description("Проверяем результат клика по логотипу 'Самокат'")
-    public void LogoScooterClickTest() {
-        mainPage.LogoScooter.click();
-        assertEquals(mainPage.PageURL, driver.getCurrentUrl());
+    public void logoScooterClickTest() {
+        mainPage.logoScooter.click();
+        assertEquals(mainPage.pageURL, driver.getCurrentUrl());
     }
 
     @Test
     @Description("Проверяем результат клика по логотипу 'Яндекс'")
-    public void LogoYandexClickTest() {
-        mainPage.LogoYandex.click();
+    public void logoYandexClickTest() {
+        mainPage.logoYandex.click();
         // Сейчас по факту открывается Дзен
         mainPage.switchToTab("Дзен");
         assertEquals("https://dzen.ru/?yredirect=true", driver.getCurrentUrl());
@@ -39,29 +39,29 @@ public class UseCasesTest extends BaseTest {
 
     @Test
     @Description("Проверяем клик по кнопке 'Заказать' в шапке страницы")
-    public void OrderButtonsTopOrderCheck() {
-        mainPage.ButtonOrderHeader.click();
+    public void orderButtonsTopOrderCheck() {
+        mainPage.buttonOrderHeader.click();
         assertTrue(driver.getCurrentUrl().endsWith("/order"));
     }
 
     @Test
     @Description("Проверяем клик по кнопке 'Заказать' в конце центрального блока")
-    public void OrderButtonsBottomOrderCheck() {
-        mainPage.scrollDownTo(mainPage.OrderBottomButton).click();
+    public void orderButtonsBottomOrderCheck() {
+        mainPage.scrollDownTo(mainPage.orderBottomButton).click();
         assertTrue(driver.getCurrentUrl().endsWith("/order"));
     }
 
     @Test
     @Description("Проверяем отображение результатов поиска несуществующего заказа")
-    public void WrongOrderSearchTest() {
-        mainPage.ButtonOrderStatus.click();
-        mainPage.InputOrderId.sendKeys("ошибка");
+    public void wrongOrderSearchTest() {
+        mainPage.buttonOrderStatus.click();
+        mainPage.inputOrderId.sendKeys("ошибка");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-        wait.until(ExpectedConditions.elementToBeClickable(mainPage.ButtonOrderStatusSearch)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(mainPage.buttonOrderStatusSearch)).click();
 
         var orderStatusPage = new OrderStatusPage(driver);
 
-        assertTrue(wait.until(ExpectedConditions.visibilityOf(orderStatusPage.ImgNotFound)).isDisplayed());
+        assertTrue(wait.until(ExpectedConditions.visibilityOf(orderStatusPage.imgNotFound)).isDisplayed());
     }
 }

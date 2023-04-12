@@ -52,29 +52,29 @@ public class PositiveOrderTest extends BaseTest {
 
     @Test
     @Description("Успешный флоу заказа самоката")
-    public void ScooterOrderTest() {
+    public void scooterOrderTest() {
         MainPage mainPage = new MainPage(driver);
         mainPage.navigateTo();
-        mainPage.ButtonOrderHeader.click();
+        mainPage.buttonOrderHeader.click();
 
         OrderPage orderPage = new OrderPage(driver);
-        orderPage.InputName.sendKeys(fName);
-        orderPage.InputLastName.sendKeys(fLastname);
-        orderPage.InputAddress.sendKeys(fAddress);
-        orderPage.SelectMetroStation(fStation);
-        orderPage.InputPhone.sendKeys(fPhone);
+        orderPage.inputName.sendKeys(fName);
+        orderPage.inputLastName.sendKeys(fLastname);
+        orderPage.inputAddress.sendKeys(fAddress);
+        orderPage.selectMetroStation(fStation);
+        orderPage.inputPhone.sendKeys(fPhone);
 
-        orderPage.ButtonNext.click();
+        orderPage.buttonNext.click();
 
-        orderPage.SetDateToday();
-        orderPage.SelectRentalPeriod(fRentalPeriod);
-        if (fColorBlack) orderPage.InputCheckboxBlack.click();
-        if (fColorGrey) orderPage.InputCheckboxGrey.click();
-        if (fComment.length() > 0) orderPage.InputComment.sendKeys(fComment);
+        orderPage.setDateToday();
+        orderPage.selectRentalPeriod(fRentalPeriod);
+        if (fColorBlack) orderPage.inputCheckboxBlack.click();
+        if (fColorGrey) orderPage.inputCheckboxGrey.click();
+        if (fComment.length() > 0) orderPage.inputComment.sendKeys(fComment);
 
-        orderPage.ButtonPlaceOrder.click();
-        orderPage.ButtonOrderConfirm.click();
+        orderPage.buttonPlaceOrder.click();
+        orderPage.buttonOrderConfirm.click();
 
-        assertTrue(orderPage.HeaderModalOrder.getText().contains("Заказ оформлен"));
+        assertTrue(orderPage.headerModalOrder.getText().contains("Заказ оформлен"));
     }
 }

@@ -1,7 +1,6 @@
 import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.Theory;
 import qa.pom.OrderPage;
 
 import static org.junit.Assert.*;
@@ -11,51 +10,117 @@ public class OrderPageTest extends BaseTest {
     OrderPage orderPage = null;
 
     @Before
-    public void BeforeOrderTest() {
+    public void beforeOrderTest() {
         orderPage = new OrderPage(driver);
         orderPage.navigateTo();
     }
 
     @Test
-    @Description("Проверка отображения сообщений об ошибке в полях оформления заказа первой страницы")
-    public void FieldErrorPageOneCheck() {
-        orderPage.ButtonNext.click();
+    @Description("Проверка отображения сообщений об ошибке в поле Имя")
+    public void fieldErrorPageOneNameCheck() {
+        orderPage.inputLastName.sendKeys("Малышева");
+        orderPage.inputAddress.sendKeys("Проспект Науки 1");
+        orderPage.selectMetroStation("Алексеевская");
+        orderPage.inputPhone.sendKeys("11111111111");
 
-        assertTrue(orderPage.InputNameError.isDisplayed());
-        assertEquals("Введите корректное имя", orderPage.InputNameError.getText());
+        orderPage.buttonNext.click();
 
-        assertTrue(orderPage.InputLastNameError.isDisplayed());
-        assertEquals("Введите корректную фамилию", orderPage.InputLastNameError.getText());
-
-        assertTrue(orderPage.InputStationError.isDisplayed());
-        assertEquals("Выберите станцию", orderPage.InputStationError.getText());
-
-        assertTrue(orderPage.InputPhoneError.isDisplayed());
-        assertEquals("Введите корректный номер", orderPage.InputPhoneError.getText());
-
-        // На сайте баг
-        assertTrue(orderPage.InputAddressError.isDisplayed());
-        assertEquals("Введите корректный адрес", orderPage.InputAddressError.getText());
+        assertTrue(orderPage.inputNameError.isDisplayed());
+        assertEquals("Введите корректное имя", orderPage.inputNameError.getText());
     }
 
     @Test
-    @Description("Проверка отображения сообщений об ошибке в полях оформления заказа второй страницы")
-    public void FieldErrorPageTwoCheck() {
+    @Description("Проверка отображения сообщений об ошибке в поле Фамилия")
+    public void fieldErrorPageOneLastNameCheck() {
+        orderPage.inputName.sendKeys("Инна");
+        orderPage.inputAddress.sendKeys("Проспект Науки 1");
+        orderPage.selectMetroStation("Алексеевская");
+        orderPage.inputPhone.sendKeys("11111111111");
 
-        orderPage.InputName.sendKeys("Инна");
-        orderPage.InputLastName.sendKeys("Малышева");
-        orderPage.InputAddress.sendKeys("Проспект Науки 1");
-        orderPage.SelectMetroStation("Алексеевская");
-        orderPage.InputPhone.sendKeys("11111111111");
+        orderPage.buttonNext.click();
 
-        orderPage.ButtonNext.click();
-        orderPage.ButtonPlaceOrder.click();
+        assertTrue(orderPage.inputLastNameError.isDisplayed());
+        assertEquals("Введите корректную фамилию", orderPage.inputLastNameError.getText());
+    }
+
+    @Test
+    @Description("Проверка отображения сообщений об ошибке в поле Станция метро")
+    public void fieldErrorPageOneStationCheck() {
+        orderPage.inputName.sendKeys("Инна");
+        orderPage.inputLastName.sendKeys("Малышева");
+        orderPage.inputAddress.sendKeys("Проспект Науки 1");
+        orderPage.inputPhone.sendKeys("11111111111");
+
+        orderPage.buttonNext.click();
+
+        assertTrue(orderPage.inputStationError.isDisplayed());
+        assertEquals("Выберите станцию", orderPage.inputStationError.getText());
+    }
+
+    @Test
+    @Description("Проверка отображения сообщений об ошибке в поле Телефон")
+    public void fieldErrorPageOnePhoneCheck() {
+        orderPage.inputName.sendKeys("Инна");
+        orderPage.inputLastName.sendKeys("Малышева");
+        orderPage.inputAddress.sendKeys("Проспект Науки 1");
+        orderPage.selectMetroStation("Алексеевская");
+
+        orderPage.buttonNext.click();
+
+        assertTrue(orderPage.inputPhoneError.isDisplayed());
+        assertEquals("Введите корректный номер", orderPage.inputPhoneError.getText());
+    }
+
+    @Test
+    @Description("Проверка отображения сообщений об ошибке в поле Адрес")
+    public void fieldErrorPageOneAddressCheck() {
+        orderPage.inputName.sendKeys("Инна");
+        orderPage.inputLastName.sendKeys("Малышева");
+        orderPage.selectMetroStation("Алексеевская");
+        orderPage.inputPhone.sendKeys("11111111111");
+
+        orderPage.buttonNext.click();
+
+        // На сайте баг
+        assertTrue(orderPage.inputAddressError.isDisplayed());
+        assertEquals("Введите корректный адрес", orderPage.inputAddressError.getText());
+    }
+
+    @Test
+    @Description("Проверка отображения сообщений об ошибке в поле Дата доставки")
+    public void fieldErrorPageTwoDateCheck() {
+
+        orderPage.inputName.sendKeys("Инна");
+        orderPage.inputLastName.sendKeys("Малышева");
+        orderPage.inputAddress.sendKeys("Проспект Науки 1");
+        orderPage.selectMetroStation("Алексеевская");
+        orderPage.inputPhone.sendKeys("11111111111");
+        orderPage.buttonNext.click();
+
+        orderPage.selectRentalPeriod("сутки");
+
+        orderPage.buttonPlaceOrder.click();
 
         // На сайте отсутствут ошибка заполнения у обязательного поля даты доставки самоката
-        //assertTrue(orderPage.InputDateError.isDisplayed());
+        assertTrue(orderPage.inputDateError.isDisplayed());
+    }
+
+    @Test
+    @Description("Проверка отображения сообщений об ошибке в полe Период аренды")
+    public void fieldErrorPageTwoPeriodCheck() {
+
+        orderPage.inputName.sendKeys("Инна");
+        orderPage.inputLastName.sendKeys("Малышева");
+        orderPage.inputAddress.sendKeys("Проспект Науки 1");
+        orderPage.selectMetroStation("Алексеевская");
+        orderPage.inputPhone.sendKeys("11111111111");
+        orderPage.buttonNext.click();
+
+        orderPage.setDateToday();
+
+        orderPage.buttonPlaceOrder.click();
 
         // На сайте отсутствут ошибка заполнения у обязательного поля срока аренды самоката
-        //assertTrue(orderPage.DropdownRentalPeriodError.isDisplayed());
-        fail();
+        assertTrue(orderPage.dropdownRentalPeriodError.isDisplayed());
     }
 }

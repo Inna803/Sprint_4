@@ -13,94 +13,100 @@ public class OrderPage extends BasePage {
 
     public OrderPage(WebDriver driver) {
         super(driver);
-        PageURL = "https://qa-scooter.praktikum-services.ru/order";
+        pageURL = "https://qa-scooter.praktikum-services.ru/order";
     }
 
     // Кнопка 'Далее' на первой странице заказа
     @FindBy(xpath="//button[contains(text(), 'Далее')]")
-    public WebElement ButtonNext;
+    public WebElement buttonNext;
 
     // Инпут для поля 'Имя'
     @FindBy(xpath="//input[contains(@placeholder, '* Имя')]")
-    public WebElement InputName;
+    public WebElement inputName;
     // Сообщение об ошибке для поля 'Имя'
     @FindBy(xpath="//input[contains(@placeholder, '* Имя')]//following-sibling::div")
-    public WebElement InputNameError;
+    public WebElement inputNameError;
 
     // Инпут для поля 'Фамилия'
     @FindBy(xpath="//input[contains(@placeholder, '* Фамилия')]")
-    public WebElement InputLastName;
+    public WebElement inputLastName;
     // Сообщение об ошибке для поля 'Фамилия'
     @FindBy(xpath="//input[contains(@placeholder, '* Фамилия')]//following-sibling::div")
-    public WebElement InputLastNameError;
+    public WebElement inputLastNameError;
 
     // Инпут для поля 'Адрес'
     @FindBy(xpath="//input[contains(@placeholder, '* Адрес: куда привезти заказ')]")
-    public WebElement InputAddress;
+    public WebElement inputAddress;
     // Сообщение об ошибке для поля 'Адрес'
     @FindBy(xpath="//input[contains(@placeholder, '* Адрес: куда привезти заказ')]/following-sibling::div")
-    public WebElement InputAddressError;
+    public WebElement inputAddressError;
 
     // Инпут для поля 'Станция метро'
     @FindBy(xpath="//input[contains(@placeholder, '* Станция метро')]")
-    public WebElement InputStation;
+    public WebElement inputStation;
     // Сообщение об ошибке для поля 'Станция метро'
     @FindBy(xpath="//div[contains(@class, 'Order_MetroError')]")
-    public WebElement InputStationError;
+    public WebElement inputStationError;
 
     // Инпут для поля 'Телефон'
     @FindBy(xpath="//input[contains(@placeholder, '* Телефон: на него позвонит курьер')]")
-    public WebElement InputPhone;
+    public WebElement inputPhone;
     // Сообщение об ошибке для поля 'Телефон'
     @FindBy(xpath="//input[contains(@placeholder, '* Телефон: на него позвонит курьер')]//following-sibling::div")
-    public WebElement InputPhoneError;
+    public WebElement inputPhoneError;
 
     // Инпут для поля 'Когда привезти самокат'
     @FindBy(xpath="//input[contains(@placeholder, '* Когда привезти самокат')]")
-    public WebElement InputDate;
+    public WebElement inputDate;
+    // Сообщение об ошибке для поля 'Когда привезти самокат'
+    @FindBy(xpath="//input[contains(@placeholder, '* Когда привезти самокат')]//following-sibling::div[contains(@class, 'Input_ErrorMessage')")
+    public WebElement inputDateError;
 
     // Инпут для выпадающего списка 'Срок аренды'
     @FindBy(xpath="//div[contains(@class, 'Dropdown-root')]")
-    public WebElement DropdownRentalPeriod;
+    public WebElement dropdownRentalPeriod;
+    // Сообщение об ошибке для поля 'Срок аренды'
+    @FindBy(xpath="//div[contains(@class, 'Dropdown-root')]//following-sibling::div[contains(@class, 'Input_ErrorMessage')]")
+    public WebElement dropdownRentalPeriodError;
 
     // Инпут для чекбокса 'Чёрный жемчуг'
     @FindBy(xpath="//input[@id='black']")
-    public WebElement InputCheckboxBlack;
+    public WebElement inputCheckboxBlack;
 
     // Инпут для чекбокса 'Серая безысходность'
     @FindBy(xpath="//input[@id='grey']")
-    public WebElement InputCheckboxGrey;
+    public WebElement inputCheckboxGrey;
 
     // Инпут для поля 'Комментарий для курьера'
     @FindBy(xpath="//input[contains(@placeholder, 'Комментарий для курьера')]")
-    public WebElement InputComment;
+    public WebElement inputComment;
 
     // Кнопка 'Заказать' на второй странице заказа
     @FindBy(xpath="//div[contains(@class, 'Order_Buttons')]/button[contains(text(), 'Заказать')]")
-    public WebElement ButtonPlaceOrder;
+    public WebElement buttonPlaceOrder;
 
     // Кнопка 'Да' для подтверждения заказа на модальном окне
     @FindBy(xpath="//button[contains(text(), 'Да')]")
-    public WebElement ButtonOrderConfirm;
+    public WebElement buttonOrderConfirm;
 
     // Заголовок модального окна завершения заказа
     @FindBy(xpath="//div[contains(@class, 'Order_ModalHeader')]")
-    public WebElement HeaderModalOrder;
+    public WebElement headerModalOrder;
 
-    public void SelectMetroStation(String stationName) {
-        InputStation.sendKeys(stationName);
-        InputStation.sendKeys(Keys.SPACE);
-        _Driver.findElement(By.xpath(String.format("//div[contains(@class, 'select-search__select')]//div[contains(text(), '%s')]", stationName))).click();
+    public void selectMetroStation(String stationName) {
+        inputStation.sendKeys(stationName);
+        inputStation.sendKeys(Keys.SPACE);
+        _driver.findElement(By.xpath(String.format("//div[contains(@class, 'select-search__select')]//div[contains(text(), '%s')]", stationName))).click();
     }
 
-    public void SetDateToday() {
+    public void setDateToday() {
         var date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        InputDate.sendKeys(date);
-        InputDate.sendKeys(Keys.ENTER);
+        inputDate.sendKeys(date);
+        inputDate.sendKeys(Keys.ENTER);
     }
 
-    public void SelectRentalPeriod(String period) {
-        DropdownRentalPeriod.click();
-        _Driver.findElement(By.xpath(String.format("//div[contains(@class, 'Dropdown-option') and contains(text(), '%s')]", period))).click();
+    public void selectRentalPeriod(String period) {
+        dropdownRentalPeriod.click();
+        _driver.findElement(By.xpath(String.format("//div[contains(@class, 'Dropdown-option') and contains(text(), '%s')]", period))).click();
     }
 }
